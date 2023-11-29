@@ -15,11 +15,7 @@ import javax.swing.JOptionPane;
  * @author micael
  */
 public class Task {
-    
-
-    public Task() {
-
-    }
+ 
     
     public void addTask(String taskText, JList tasksContainer) {
         

@@ -23,7 +23,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import org.springframework.scheduling.config.Task;
+
 
 import javax.swing.JButton;
 import java.awt.Dimension;
@@ -31,6 +31,7 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import java.awt.Rectangle;
 import java.awt.Color;
+
 
 
 import javax.swing.BorderFactory;
@@ -246,7 +247,6 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_taskInputActionPerformed
 
     
-    
     Task task = new Task();
     
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -256,7 +256,9 @@ public class App extends javax.swing.JFrame {
         
         if (!taskText.isEmpty()) {
             
-            Task.addTask(taskText, tasksContainer);
+            
+            task.addTask(taskText, tasksContainer);
+            
 
             // Limpar o campo de entrada
             taskInput.setText("Nova Tarefa");
