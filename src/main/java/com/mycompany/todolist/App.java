@@ -141,6 +141,7 @@ public class App extends javax.swing.JFrame {
         completedButton.setForeground(new java.awt.Color(102, 102, 102));
         completedButton.setText("concluída");
         completedButton.setBorder(null);
+        completedButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         completedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 completedButtonActionPerformed(evt);
