@@ -12,11 +12,9 @@ package com.mycompany.todolist;
  * @author micael
  */
 
-import javax.swing.JOptionPane;
 import javax.swing.DefaultListModel;
 import javax.swing.BoxLayout;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JList;
 import java.awt.event.MouseEvent;
@@ -31,10 +29,8 @@ import javax.swing.JComponent;
 import java.awt.Rectangle;
 import java.awt.Color;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import javax.swing.BorderFactory;
 
 public class App extends javax.swing.JFrame {
 
@@ -48,7 +44,14 @@ public class App extends javax.swing.JFrame {
         tasksContainer.setModel(listModel);
         jScrollPane2.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         
-         tasksContainer.addMouseMotionListener(new MouseMotionAdapter() {
+        addButton.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        addButton.setContentAreaFilled(false);
+        
+        completedButton.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        completedButton.setBackground(Color.white);
+        
+        
+        tasksContainer.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
                 JList<String> list = (JList<String>) e.getSource();
@@ -95,12 +98,13 @@ public class App extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        taskInput = new javax.swing.JTextField();
-        addButton = new javax.swing.JButton();
         blankContainer = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tasksContainer = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        completedButton = new javax.swing.JButton();
+        inputContainer = new javax.swing.JPanel();
+        taskInput = new javax.swing.JTextField();
+        addButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 51, 255));
@@ -108,29 +112,10 @@ public class App extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("ToDo List");
 
-        taskInput.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-        taskInput.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        taskInput.setText("Nova Tarefa");
-        taskInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                taskInputActionPerformed(evt);
-            }
-        });
-
-        addButton.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        addButton.setText("+");
-        addButton.setMaximumSize(new java.awt.Dimension(47, 34));
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
-            }
-        });
-
         blankContainer.setBackground(new java.awt.Color(255, 255, 255));
 
         jScrollPane2.setBorder(null);
 
-        tasksContainer.setBackground(new java.awt.Color(255, 255, 255));
         tasksContainer.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         tasksContainer.setForeground(new java.awt.Color(102, 102, 102));
         tasksContainer.setModel(new javax.swing.AbstractListModel<String>() {
@@ -138,6 +123,7 @@ public class App extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        tasksContainer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tasksContainer.setFixedCellWidth(0);
         tasksContainer.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -146,14 +132,14 @@ public class App extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tasksContainer);
 
-        jButton1.setBackground(new java.awt.Color(204, 204, 204));
-        jButton1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(102, 102, 102));
-        jButton1.setText("concluída");
-        jButton1.setBorder(null);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        completedButton.setBackground(new java.awt.Color(204, 204, 204));
+        completedButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        completedButton.setForeground(new java.awt.Color(102, 102, 102));
+        completedButton.setText("concluída");
+        completedButton.setBorder(null);
+        completedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                completedButtonActionPerformed(evt);
             }
         });
 
@@ -165,51 +151,88 @@ public class App extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, blankContainerLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(142, 142, 142))
+            .addGroup(blankContainerLayout.createSequentialGroup()
+                .addGap(143, 143, 143)
+                .addComponent(completedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         blankContainerLayout.setVerticalGroup(
             blankContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(blankContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(completedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        inputContainer.setBackground(new java.awt.Color(255, 255, 255));
+
+        taskInput.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        taskInput.setForeground(new java.awt.Color(102, 102, 102));
+        taskInput.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        taskInput.setText("Nova Tarefa");
+        taskInput.setBorder(null);
+        taskInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                taskInputActionPerformed(evt);
+            }
+        });
+
+        addButton.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        addButton.setText("+");
+        addButton.setBorder(null);
+        addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addButton.setMaximumSize(new java.awt.Dimension(47, 34));
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout inputContainerLayout = new javax.swing.GroupLayout(inputContainer);
+        inputContainer.setLayout(inputContainerLayout);
+        inputContainerLayout.setHorizontalGroup(
+            inputContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(inputContainerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(taskInput, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE))
+        );
+        inputContainerLayout.setVerticalGroup(
+            inputContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(inputContainerLayout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addComponent(taskInput))
+            .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(blankContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(taskInput, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(inputContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(49, 49, 49))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(167, 167, 167))
+                .addGap(170, 170, 170))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(taskInput, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(inputContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(blankContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
@@ -221,7 +244,7 @@ public class App extends javax.swing.JFrame {
 
     
     
-
+    Task task = new Task();
     
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 
@@ -229,16 +252,9 @@ public class App extends javax.swing.JFrame {
         taskText = taskInput.getText();
         
         if (!taskText.isEmpty()) {
-            // Obter o modelo do JList
-            DefaultListModel<String> listModel = (DefaultListModel<String>) tasksContainer.getModel();
-            LocalDateTime dateTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
-            // Adicionar a nova tarefa ao modelo
-            listModel.addElement(String.format("📝 %s - Criada em %s", taskText, dateTime.format(formatter)));
+            
+            task.addTask(taskText, tasksContainer);
 
-            
-              
-            
             // Limpar o campo de entrada
             taskInput.setText("Nova Tarefa");
         }
@@ -251,20 +267,9 @@ public class App extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tasksContainerValueChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-          // Obter o índice do item selecionado
-        int selectedIndex = tasksContainer.getSelectedIndex();
-
-        // Certificar-se de que há um item selecionado
-        if (selectedIndex != -1) {
-            // Remover o item do modelo
-            DefaultListModel<String> listModel = (DefaultListModel<String>) tasksContainer.getModel();
-            listModel.remove(selectedIndex);
-        }else {
-        // Se nenhum item estiver selecionado, exibir uma janela de aviso
-            JOptionPane.showMessageDialog(this, "Nenhum item selecionado para remover", "Informação", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void completedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completedButtonActionPerformed
+       task.removeTask(tasksContainer);
+    }//GEN-LAST:event_completedButtonActionPerformed
 
     
     
@@ -300,7 +305,8 @@ public class App extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JPanel blankContainer;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton completedButton;
+    private javax.swing.JPanel inputContainer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField taskInput;
