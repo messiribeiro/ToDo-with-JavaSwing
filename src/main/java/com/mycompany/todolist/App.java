@@ -22,6 +22,9 @@ import java.awt.event.MouseEvent;
 //importações necessárias para a estilização da srollbar
 
 import javax.swing.plaf.basic.BasicScrollBarUI;
+
+import org.springframework.scheduling.config.Task;
+
 import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -253,7 +256,7 @@ public class App extends javax.swing.JFrame {
         
         if (!taskText.isEmpty()) {
             
-            task.addTask(taskText, tasksContainer);
+            Task.addTask(taskText, tasksContainer);
 
             // Limpar o campo de entrada
             taskInput.setText("Nova Tarefa");
